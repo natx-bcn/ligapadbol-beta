@@ -1357,8 +1357,7 @@
       const season = localStorage.getItem('ligapadbol_season') || '2026-27';
       try {
         const response = await fetch(
-          `${RANKING_API_URL}?temporada=${encodeURIComponent(season)}&entorno=beta&_=${Date.now()}`,
-          { cache: 'no-store' }
+          `${RANKING_API_URL}?temporada=${encodeURIComponent(season)}&entorno=beta&_=${Date.now()}`
         );
         if (!response.ok) return;
         const data = await response.json();
