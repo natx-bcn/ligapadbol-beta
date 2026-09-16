@@ -800,9 +800,8 @@
       display:none;
       position:fixed;
       z-index:85;
-      left:50%;
+      right:max(14px, env(safe-area-inset-right));
       bottom:max(14px, env(safe-area-inset-bottom));
-      transform:translateX(-50%);
       min-height:52px;
       padding:0 20px;
       border-radius:999px;
@@ -818,7 +817,7 @@
     .floating-wa.is-hidden{
       opacity:0;
       pointer-events:none;
-      transform:translate(-50%,18px);
+      transform:translateY(18px);
     }
 
     @media (max-width: 920px){
