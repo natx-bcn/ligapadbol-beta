@@ -1171,7 +1171,7 @@
     // Precalienta la clasificación mientras el usuario está en la portada.
     // Así, al abrirla, normalmente los datos ya están en localStorage.
     const RANKING_API_URL = "https://script.google.com/macros/s/AKfycbzA5MLbh4jh1SXJqBpQAhHNovlzAsezP3KDPld-9O3vikPZSvPkpytoN2zsNVkkgZUu/exec";
-    const RANKING_CACHE_PREFIX = "ligapadbol_ranking_cache_v1_";
+    const RANKING_CACHE_PREFIX = "ligapadbol_beta_ranking_cache_v1_";
 
     try {
       const cachedSeason = localStorage.getItem('ligapadbol_season') || '2026-27';
@@ -1193,7 +1193,10 @@
     async function prefetchRanking() {
       const season = localStorage.getItem('ligapadbol_season') || '2026-27';
       try {
-        const response = await fetch(`${RANKING_API_URL}?temporada=${encodeURIComponent(season)}`);
+        const response = await fetch(
+          `${RANKING_API_URL}?temporada=${encodeURIComponent(season)}&entorno=beta&_=${Date.now()}`,
+          { cache: 'no-store' }
+        );
         if (!response.ok) return;
         const data = await response.json();
         if (!data || !Array.isArray(data.jugadores)) return;
