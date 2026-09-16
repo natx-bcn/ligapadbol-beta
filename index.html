@@ -240,6 +240,75 @@
     .step h3{margin:3px 0 5px;font-size:1.18rem}
     .step p{margin:0;color:#aebdcc}
 
+    .media-layout{display:grid;gap:28px}
+    .media-gallery{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:14px;
+    }
+    .gallery-item{
+      position:relative;
+      aspect-ratio:4/3;
+      border:0;
+      padding:0;
+      border-radius:20px;
+      overflow:hidden;
+      cursor:pointer;
+      background:#dfe6ec;
+      box-shadow:var(--shadow);
+    }
+    .gallery-item img{
+      width:100%;height:100%;object-fit:cover;
+      transition:transform .35s ease, filter .35s ease;
+    }
+    .gallery-item:hover img,
+    .gallery-item:focus-visible img{transform:scale(1.04)}
+    .gallery-item:focus-visible{outline:3px solid rgba(57,209,199,.5);outline-offset:3px}
+    .gallery-badge{
+      position:absolute;left:12px;bottom:12px;
+      padding:7px 10px;border-radius:999px;
+      background:rgba(6,17,29,.72);color:white;
+      font-size:.75rem;font-weight:800;letter-spacing:.05em;
+      backdrop-filter:blur(8px);
+    }
+    .media-video-card{
+      background:white;border:1px solid #edf1f4;border-radius:28px;
+      overflow:hidden;box-shadow:var(--shadow)
+    }
+    .media-video-shell{padding:18px 18px 0}
+    .media-video-shell video{
+      width:100%;display:block;border-radius:18px;
+      background:#091320;max-height:560px;object-fit:cover;
+    }
+    .media-card-body{padding:22px 24px 26px}
+    .media-label{display:inline-block;margin-bottom:8px;color:#4a9d20;font-weight:900;letter-spacing:.1em;text-transform:uppercase;font-size:.72rem}
+    .media-card-body h3{margin:0 0 8px;font-size:1.45rem;letter-spacing:-.03em}
+    .media-card-body p{margin:0;color:var(--muted)}
+    .lightbox{
+      position:fixed;inset:0;z-index:120;display:flex;align-items:center;justify-content:center;
+      padding:24px;background:rgba(5,14,24,.86);backdrop-filter:blur(6px);
+      opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease, visibility .2s ease;
+    }
+    .lightbox.open{opacity:1;visibility:visible;pointer-events:auto}
+    .lightbox-inner{position:relative;max-width:min(1120px, calc(100vw - 32px));width:100%}
+    .lightbox img{
+      width:100%;max-height:82vh;object-fit:contain;border-radius:24px;
+      background:#091320;box-shadow:0 25px 80px rgba(0,0,0,.38)
+    }
+    .lightbox-caption{margin:14px 56px 0;color:#d9e5ee;text-align:center;font-weight:700}
+    .lightbox-close,
+    .lightbox-nav{
+      position:absolute;border:0;cursor:pointer;border-radius:999px;
+      background:rgba(255,255,255,.12);color:white;backdrop-filter:blur(10px);
+      display:grid;place-items:center;transition:background .2s ease, transform .2s ease;
+    }
+    .lightbox-close:hover,.lightbox-nav:hover{background:rgba(255,255,255,.2);transform:translateY(-1px)}
+    .lightbox-close{top:-12px;right:-12px;width:44px;height:44px;font-size:1.6rem;font-weight:800}
+    .lightbox-nav{top:50%;transform:translateY(-50%);width:48px;height:48px;font-size:1.8rem;font-weight:800}
+    .lightbox-nav:hover{transform:translateY(calc(-50% - 1px))}
+    .lightbox-prev{left:-16px}
+    .lightbox-next{right:-16px}
+
     .ranking{
       background:linear-gradient(135deg,#0d2135,#112f3b);
       color:white;overflow:hidden;position:relative
@@ -315,6 +384,10 @@
       .quick-item:nth-child(2){border-right:0}
       .quick-item:nth-child(-n+2){border-bottom:1px solid var(--line)}
       .info-grid{grid-template-columns:1fr}
+      .media-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .lightbox-close{top:8px;right:8px}
+      .lightbox-prev{left:8px}
+      .lightbox-next{right:8px}
     }
     @media (max-width: 620px){
       .wrap{width:min(100% - 24px,var(--max))}
@@ -334,6 +407,10 @@
       .story-card,.dark-card,.info-card{padding:26px}
       .cta-box{padding:36px 26px}
       .footer{flex-direction:column;align-items:flex-start}
+      .media-gallery{grid-template-columns:1fr}
+      .lightbox{padding:14px}
+      .lightbox-caption{margin:12px 12px 0;font-size:.95rem}
+      .lightbox-nav{width:42px;height:42px}
     }
   
     .lang-switch{
@@ -445,19 +522,24 @@
 <h2 data-i18n="media_title">Fotos i vídeos reals dels partits.</h2>
 <p class="lead" data-i18n="media_lead">Una mostra visual del ritme, les pistes i l'ambient de la lliga. Sense artificis: padbol real.</p>
 </div>
-<div class="media-grid">
-<article class="media-card">
-<div class="media-visual">
-<img alt="Jugadors disputant un punt en una pista blava de padbol" loading="lazy" src="./assets/galeria/padbol-partit-01.jpg"/>
+<div class="media-layout">
+<div>
+<div class="media-label" data-i18n="media_gallery_label">Galeria de fotos</div>
+<h3 data-i18n="media_gallery_title">Partits, punts i ambient real</h3>
+<p class="lead" data-i18n="media_gallery_caption">Prem sobre qualsevol foto per obrir-la en gran.</p>
 </div>
-<div class="media-card-body">
-<div class="media-label" data-i18n="media_photo_label">Foto destacada</div>
-<h3 data-i18n="media_photo_title">Una jugada real de la lliga</h3>
-<p data-i18n="media_photo_caption">Una acció de partit en plena jornada: pista blava, rebot a la paret i tensió competitiva fins a l'últim toc.</p>
+<div class="media-gallery" id="padbol-gallery">
+<button class="gallery-item" data-caption-ca="Vista general de la pista amb l'ambient real de la jornada." data-caption-es="Vista general de la pista con el ambiente real de la jornada." type="button"><img alt="Vista general de la pista de padbol en plena jornada" loading="lazy" src="./assets/galeria/padbol-galeria-01.jpg"/><span class="gallery-badge" data-i18n="media_expand">Ampliar</span></button>
+<button class="gallery-item" data-caption-ca="Partit en joc vist de front, amb tots quatre jugadors en pista." data-caption-es="Partido en juego visto de frente, con los cuatro jugadores en pista." type="button"><img alt="Partido de padbol visto de frente con cuatro jugadores" loading="lazy" src="./assets/galeria/padbol-galeria-02.jpg"/><span class="gallery-badge" data-i18n="media_expand">Ampliar</span></button>
+<button class="gallery-item" data-caption-ca="Un altre punt en acció, amb la pista central i el rebot a punt d'arribar." data-caption-es="Otro punto en acción, con la pista central y el rebote a punto de llegar." type="button"><img alt="Punto de padbol en acción en la pista central" loading="lazy" src="./assets/galeria/padbol-galeria-03.jpg"/><span class="gallery-badge" data-i18n="media_expand">Ampliar</span></button>
+<button class="gallery-item" data-caption-ca="Vista lateral del partit, amb els quatre jugadors preparats per al següent toc." data-caption-es="Vista lateral del partido, con los cuatro jugadores listos para el siguiente toque." type="button"><img alt="Vista lateral de un partido de padbol" loading="lazy" src="./assets/galeria/padbol-galeria-04.jpg"/><span class="gallery-badge" data-i18n="media_expand">Ampliar</span></button>
+<button class="gallery-item" data-caption-ca="Control tècnic amb el peu dins la pista blava." data-caption-es="Control técnico con el pie dentro de la pista azul." type="button"><img alt="Jugador controlando la pelota con el pie en una pista de padbol" loading="lazy" src="./assets/galeria/padbol-galeria-05.jpg"/><span class="gallery-badge" data-i18n="media_expand">Ampliar</span></button>
+<button class="gallery-item" data-caption-ca="Acció a prop del vidre i la xarxa, amb molta exigència tècnica." data-caption-es="Acción cerca del cristal y de la red, con mucha exigencia técnica." type="button"><img alt="Acción de padbol cerca del cristal y la red" loading="lazy" src="./assets/galeria/padbol-galeria-06.jpg"/><span class="gallery-badge" data-i18n="media_expand">Ampliar</span></button>
+<button class="gallery-item" data-caption-ca="Servei o rematada en suspensió, un dels gestos més espectaculars del padbol." data-caption-es="Saque o remate en suspensión, uno de los gestos más espectaculares del padbol." type="button"><img alt="Jugador realizando un gesto técnico en suspensión en padbol" loading="lazy" src="./assets/galeria/padbol-galeria-07.jpg"/><span class="gallery-badge" data-i18n="media_expand">Ampliar</span></button>
+<button class="gallery-item" data-caption-ca="Control aeri en una jugada molt vistosa dins la pista." data-caption-es="Control aéreo en una jugada muy vistosa dentro de la pista." type="button"><img alt="Jugador haciendo un control aéreo en un partido de padbol" loading="lazy" src="./assets/galeria/padbol-galeria-08.jpg"/><span class="gallery-badge" data-i18n="media_expand">Ampliar</span></button>
 </div>
-</article>
-<article class="media-card">
-<div class="media-visual">
+<article class="media-video-card">
+<div class="media-video-shell">
 <video controls playsinline preload="metadata" poster="./assets/galeria/padbol-partit-01.jpg">
 <source src="./assets/galeria/padbol-partit-01.mp4" type="video/mp4"/>
 </video>
@@ -589,8 +671,17 @@
 <div><a data-i18n="footer_top" href="#inicio">Tornar a dalt ↑</a></div>
 </div>
 </footer>
+<div aria-hidden="true" class="lightbox" id="photo-lightbox">
+<div class="lightbox-inner">
+<button aria-label="Tancar galeria" class="lightbox-close" data-i18n-aria="media_lightbox_close" type="button">×</button>
+<button aria-label="Foto anterior" class="lightbox-nav lightbox-prev" data-i18n-aria="media_lightbox_prev" type="button">‹</button>
+<img alt="" id="lightbox-image" src=""/>
+<button aria-label="Foto següent" class="lightbox-nav lightbox-next" data-i18n-aria="media_lightbox_next" type="button">›</button>
+<p class="lightbox-caption" id="lightbox-caption"></p>
+</div>
+</div>
 <script>
-    const I18N = {"ca": {"nav_how": "Com funciona", "nav_ranking": "Classificació", "nav_info": "Informació", "nav_faq": "FAQ", "nav_join": "Apunta-m'hi", "hero_eyebrow": "Apunta't a la Lliga · Temporada 2026/27", "hero_title": "Competeix.<br>Aprèn.<br><span>Puja de pista.</span>", "hero_copy": "Una Lliga de Padbol a Barcelona: parelles rotatives, partits dinàmics i una classificació individual per mesurar la teva evolució.", "hero_join": "💬 Apunta-m'hi per WhatsApp", "hero_ranking": "Veure classificació →", "hero_meta_1": "Dijous · 20:00–22:00", "hero_meta_2": "CEM Guinardó · Martinenc", "hero_meta_3": "No necessites parella fixa", "score_courts": "pistes", "score_games": "jocs", "score_pairs": "parelles", "quick_1_b": "📅 Cada dijous", "quick_1_s": "De setembre a juny, excepte festius", "quick_2_b": "🕗 20:00–22:00", "quick_2_s": "També pots venir només una hora", "quick_3_b": "📍 Guinardó", "quick_3_s": "Av. Mare de Déu de Montserrat, 136", "quick_4_b": "⚡ Format dinàmic", "quick_4_s": "Parelles noves a cada partit", "how_kicker": "Més que una lliga", "how_title": "Una competició dissenyada per millorar jugant.", "how_lead": "L'experiència del primer any ens va deixar una conclusió inesperada: això no és només una lliga de Padbol, és una Lliga-Escola. Competeixes amb tu mateix, aprens de rivals i companys i, de passada, tots pugem de nivell. Tremola, Ronaldinho! 😄", "school_title": "Lliga-Escola de Padbol", "school_p1": "L'objectiu no és únicament sumar victòries. En jugar amb companys i rivals diferents, cada partit t'obliga a adaptar-te, comunicar-te i descobrir noves maneres de competir.", "school_p2": "No cal que vinguis amb parella: les fem in situ amb els assistents i les anem canviant. Avui company, al partit següent rival. Això és Padbol.", "school_quote": "“Tots hem millorat el nivell en un any i seguim pujant. Tremola, Ronaldinho! ⚽😄”", "step1_title": "Es formen les parelles", "step1_p": "Les combinacions es creen el mateix dia i van canviant a cada partit.", "step2_title": "Partit a 3 jocs", "step2_p": "La parella que arriba a 3 jocs guanya el partit. Cada punt compta.", "step3_title": "Puges o baixes de pista", "step3_p": "La parella guanyadora puja i la perdedora baixa, generant partits cada vegada més equilibrats.", "step4_title": "Tot suma a la teva classificació", "step4_p": "La classificació és individual i pública, amb estadístiques per seguir la teva evolució.", "media_kicker": "La Lliga en acció", "media_title": "Fotos i vídeos reals dels partits.", "media_lead": "Una mostra visual del ritme, les pistes i l\'ambient de la lliga. Sense artificis: padbol real.", "media_photo_label": "Foto destacada", "media_photo_title": "Una jugada real de la lliga", "media_photo_caption": "Una acció de partit en plena jornada: pista blava, rebot a la paret i tensió competitiva fins a l\'últim toc.", "media_video_label": "Vídeo destacat", "media_video_title": "Veure el padbol en moviment", "media_video_caption": "Un vídeo curt per entendre millor el dinamisme dels punts, els rebots i l\'ambient real de la Lliga Padbol Barcelona.", "rank_kicker": "Classificació pública", "rank_title": "Segueix la teva evolució jornada a jornada.", "rank_lead": "Consulta la classificació actualitzada i les estadístiques dels jugadors. El sistema individual permet competir encara que les parelles canviïn a cada partit.", "rank_open": "Obrir classificació", "rank_history": "Històric 2025/26", "rank_player": "Jugador/a", "rank_note": "Vista conceptual. Les dades reals són a la classificació oficial.", "info_kicker": "Informació pràctica", "info_title": "El més important, d'un cop d'ull.", "info_when_title": "Quan", "info_when_p": "Tots els dijous de 20:00 a 22:00. Si ho necessites, pots participar només de 20:00 a 21:00 o de 21:00 a 22:00.", "info_where_title": "On", "info_where_p": "CEM Guinardó · pistes al costat de la piscina exterior. Av. de la Mare de Déu de Montserrat, 136 · Metro L4 Guinardó.", "info_map": "Obrir ubicació →", "info_price_title": "Preu", "info_price_p": "El cost de cada jornada es reparteix proporcionalment entre els assistents, prenent com a referència el lloguer de pista (24 €/hora aprox. per cada 4 jugadors).", "faq_kicker": "Preguntes freqüents", "faq_title": "Abans de venir.", "faq1_q": "He de venir amb parella?", "faq1_a": "No. Les parelles les fem in situ amb els assistents i les canviem a cada partit. Venir sense parella no és un problema; gairebé és part de la gràcia.", "faq2_q": "La lliga és mixta?", "faq2_a": "Of course! Sí, és clar. La lliga és mixta i està oberta a jugadors i jugadores.", "faq3_q": "Què passa si no puc venir tots els dijous?", "faq3_a": "Si algun dijous puntual no pots venir, no passa res: la classificació té en compte els partits jugats. Ara bé, si només pots venir un cop cada tres mesos, potser no val la pena apuntar-s'hi... ja muntarem algun partidet amistós! 😉", "faq4_q": "Com funciona el calendari i el pagament?", "faq4_a": "Es juga els dijous, excepte festius, entre setembre i juny. El pagament es fa el mateix dia i l'import es reparteix proporcionalment entre els assistents.", "faq5_q": "Què passa si plou o hi ha molta humitat?", "faq5_a": "Si hi ha risc de pluja, un espia rus es presenta a les pistes una hora abans, determina si es juga o no i ens ho comunica a les 19:01 per WhatsApp. 🕵️🇷🇺", "faq6_q": "Per què la classificació és individual?", "faq6_a": "Primer: si hi ha una lesió o algú no pot venir, no compromet ningú més. Segon: com més persones diferents tens al costat i al davant, més aprens. Tercer: et pots apuntar quan vulguis sense haver de trobar parella fixa. I si estàs enamorat de la teva parella fixa, tranquil: ja muntarem algun torneig per parelles. 😄", "faq7_q": "Per què es juguen partits curts?", "faq7_a": "El format curt fa que cada punt tingui valor, manté un ritme alt de joc i permet rotar parelles amb freqüència. També ajuda a crear grups de nivell de manera natural.", "faq8_q": "Qui pot jugar?", "faq8_a": "Qualsevol jugador o jugadora a qui li agradi el Padbol i pugui comprometre's a assistir amb certa regularitat. Es recomana tenir una experiència mínima en Padbol i/o futbol. Anima't, vine sol o truca al col·lega i... apuntarsus!! 😄", "faq9_q": "Puc reservar pista fora de la lliga?", "faq9_a": "Sí. Pots consultar les reserves a Padbol Barcelona. Les hores de la lliga són els dijous de 20:00 a 22:00.", "faq9_link": "Anar a Padbol Barcelona →", "cta_title": "Vens aquest dijous?", "cta_p": "Escriu-nos per WhatsApp, dona'ns el teu nom i cognom o un sobrenom esportiu —tipus Joan el Xilenes o el Cames Llargues de Guinardó— i ens veiem dijous a les 20 h. No cal parella.", "footer_copy": "© 2026 Lliga Padbol Barcelona · Temporada 2026/27", "footer_top": "Tornar a dalt ↑", "aria_home": "Lliga Padbol - Inici", "aria_menu": "Obrir menú", "aria_nav": "Navegació principal", "aria_rank_example": "Exemple visual de classificació", "faq10_q": "Per què juguem sempre el mateix dia?", "faq10_a": "Per buscar el compromís d'un dia concret. Les lligues amb dies aleatoris no van funcionar gaire bé en el passat 😅. Si hi ha prou demanda per un altre dia, ens ho plantegem."}, "es": {"nav_how": "Cómo funciona", "nav_ranking": "Clasificación", "nav_info": "Información", "nav_faq": "FAQ", "nav_join": "Apuntarme", "hero_eyebrow": "Apúntate a la Liga · Temporada 2026/27", "hero_title": "Compite.<br>Aprende.<br><span>Sube de pista.</span>", "hero_copy": "Una Liga de Padbol en Barcelona: parejas rotativas, partidos dinámicos y una clasificación individual para medir tu evolución.", "hero_join": "💬 Apuntarme por WhatsApp", "hero_ranking": "Ver clasificación →", "hero_meta_1": "Jueves · 20:00–22:00", "hero_meta_2": "CEM Guinardó · Martinenc", "hero_meta_3": "No necesitas pareja fija", "score_courts": "pistas", "score_games": "juegos", "score_pairs": "parejas", "quick_1_b": "📅 Cada jueves", "quick_1_s": "De septiembre a junio, excepto festivos", "quick_2_b": "🕗 20:00–22:00", "quick_2_s": "También puedes venir solo una hora", "quick_3_b": "📍 Guinardó", "quick_3_s": "Av. Mare de Déu de Montserrat, 136", "quick_4_b": "⚡ Formato dinámico", "quick_4_s": "Parejas nuevas en cada partido", "how_kicker": "Más que una liga", "how_title": "Una competición diseñada para mejorar jugando.", "how_lead": "La experiencia del primer año nos dejó una conclusión inesperada: esto no es solo una liga de Padbol, es una Liga-Escuela. Además de competir contigo mismo, aprendes de todos los rivales y compañeros. Todos hemos mejorado notablemente el nivel en un solo año y seguimos subiendo. ¡Tiembla Ronaldinho! 😄", "school_title": "Liga-Escuela de Padbol", "school_p1": "El objetivo no es únicamente sumar victorias. Al jugar con compañeros y rivales distintos, cada partido te obliga a adaptarte, comunicarte y descubrir nuevas formas de competir.", "school_p2": "No hace falta que vengas con pareja: las creamos in situ con los asistentes y las vamos cambiando. Hoy compañero, en el siguiente partido rival. Esto es Padbol.", "school_quote": "“Todos hemos mejorado el nivel en un año y seguimos subiendo. ¡Tiembla Ronaldinho! ⚽😄”", "step1_title": "Se forman las parejas", "step1_p": "Las combinaciones se crean el mismo día y van cambiando en cada partido.", "step2_title": "Partido a 3 juegos", "step2_p": "La pareja que alcanza 3 juegos gana el partido. Cada punto cuenta.", "step3_title": "Subes o bajas de pista", "step3_p": "La pareja ganadora sube y la perdedora baja, generando partidos cada vez más equilibrados.", "step4_title": "Todo suma a tu clasificación", "step4_p": "La clasificación es individual y pública, con estadísticas para seguir tu evolución.", "media_kicker": "La Liga en acción", "media_title": "Fotos y vídeos reales de los partidos.", "media_lead": "Una muestra visual del ritmo, las pistas y el ambiente de la liga. Sin artificios: padbol real.", "media_photo_label": "Foto destacada", "media_photo_title": "Una jugada real de la liga", "media_photo_caption": "Una acción de partido en plena jornada: pista azul, rebote en la pared y tensión competitiva hasta el último toque.", "media_video_label": "Vídeo destacado", "media_video_title": "Ver el padbol en movimiento", "media_video_caption": "Un vídeo corto para entender mejor el dinamismo de los puntos, los rebotes y el ambiente real de la Liga Padbol Barcelona.", "rank_kicker": "Clasificación pública", "rank_title": "Sigue tu evolución jornada a jornada.", "rank_lead": "Consulta la clasificación actualizada y las estadísticas de los jugadores. El sistema individual permite competir aunque las parejas cambien en cada partido.", "rank_open": "Abrir clasificación", "rank_history": "Histórico 2025/26", "rank_player": "Jugador/a", "rank_note": "Vista conceptual. Los datos reales están en la clasificación oficial.", "info_kicker": "Información práctica", "info_title": "Lo importante, de un vistazo.", "info_when_title": "Cuándo", "info_when_p": "Todos los jueves de 20:00 a 22:00. Si lo necesitas, puedes participar solo de 20:00 a 21:00 o de 21:00 a 22:00.", "info_where_title": "Dónde", "info_where_p": "CEM Guinardó · pistas junto a la piscina exterior. Av. de la Mare de Déu de Montserrat, 136 · Metro L4 Guinardó.", "info_map": "Abrir ubicación →", "info_price_title": "Precio", "info_price_p": "El coste de cada jornada se reparte proporcionalmente entre los asistentes, tomando como referencia el alquiler de pista (24 €/hora aprox. por cada 4 jugadores).", "faq_kicker": "Preguntas frecuentes", "faq_title": "Antes de venir.", "faq1_q": "¿Tengo que venir con pareja?", "faq1_a": "No. Las parejas las creamos in situ con los asistentes y cambian en cada partido. Venir sin pareja no es un problema; casi es parte de la gracia.", "faq2_q": "¿La liga es mixta?", "faq2_a": "Of course. ¡Sí, por supuesto! La liga es mixta y está abierta a jugadores y jugadoras.", "faq3_q": "¿Qué pasa si no puedo ir todos los jueves?", "faq3_a": "Si algún jueves puntual no puedes venir, no pasa nada: la clasificación es relativa a los partidos jugados. Pero si solo puedes venir uno cada tres meses, no vale la pena apuntarse... ¡ya organizaremos algún partidillo amistoso! 😉", "faq4_q": "¿Cómo funciona el calendario y el pago?", "faq4_a": "Se juega los jueves, excepto festivos, entre septiembre y junio. El pago se realiza el mismo día y el importe se reparte proporcionalmente entre los asistentes.", "faq5_q": "¿Qué ocurre si llueve o hay mucha humedad?", "faq5_a": "Si hay riesgo de lluvia, un espía ruso se persona en las pistas una hora antes, determina si se juega o no y nos lo comunica a las 19:01 por WhatsApp. 🕵️🇷🇺", "faq6_q": "¿Por qué la clasificación es individual?", "faq6_a": "El 1º motivo es que, si hay una lesión o imposibilidad de asistir, no se compromete a nadie más. La 2ª razón es que cuanto con más personas juegas, más aprendes. La 3ª es que la gente se puede apuntar cuando quiera sin necesidad de conseguir pareja fija. Si estás enamorado de tu pareja fija, tranqui: montaremos algún torneo por parejas. 😄", "faq7_q": "¿Por qué se juegan partidos cortos?", "faq7_a": "El formato corto hace que cada punto tenga valor, mantiene un ritmo alto de juego y permite rotar parejas con frecuencia. También ayuda a crear grupos de nivel de forma natural.", "faq8_q": "¿Quién puede jugar?", "faq8_a": "Todo jugador o jugadora al que le guste el Padbol y que se comprometa a asistir habitualmente. Se recomienda tener un mínimo de experiencia en Padbol y/o fútbol. ¡Anímate y ven solo o llama a tu colega y apuntarsus!! 😄", "faq9_q": "¿Puedo reservar pista fuera de la liga?", "faq9_a": "Sí. Puedes consultar las reservas en Padbol Barcelona. Las horas de la liga son los jueves de 20:00 a 22:00.", "faq9_link": "Ir a Padbol Barcelona →", "cta_title": "¿Te vienes este jueves?", "cta_p": "Escríbenos por WhatsApp, danos tu nombre y apellido o un mote deportivo —por ejemplo Juan el Chilenas o el Patas Largas de Guinardó— y nos vemos el jueves a las 20 h. No hace falta pareja.", "footer_copy": "© 2026 Liga Padbol Barcelona · Temporada 2026/27", "footer_top": "Volver arriba ↑", "aria_home": "Liga Padbol - Inicio", "aria_menu": "Abrir menú", "aria_nav": "Navegación principal", "aria_rank_example": "Ejemplo visual de clasificación", "faq10_q": "¿Por qué jugamos siempre el mismo día?", "faq10_a": "Para buscar el compromiso de un día concreto. Las ligas de días aleatorios no funcionaron demasiado bien en el pasado 😅. Si hay suficiente demanda para otro día, nos lo planteamos."}};
+    const I18N = {"ca": {"nav_how": "Com funciona", "nav_ranking": "Classificació", "nav_info": "Informació", "nav_faq": "FAQ", "nav_join": "Apunta-m'hi", "hero_eyebrow": "Apunta't a la Lliga · Temporada 2026/27", "hero_title": "Competeix.<br>Aprèn.<br><span>Puja de pista.</span>", "hero_copy": "Una Lliga de Padbol a Barcelona: parelles rotatives, partits dinàmics i una classificació individual per mesurar la teva evolució.", "hero_join": "💬 Apunta-m'hi per WhatsApp", "hero_ranking": "Veure classificació →", "hero_meta_1": "Dijous · 20:00–22:00", "hero_meta_2": "CEM Guinardó · Martinenc", "hero_meta_3": "No necessites parella fixa", "score_courts": "pistes", "score_games": "jocs", "score_pairs": "parelles", "quick_1_b": "📅 Cada dijous", "quick_1_s": "De setembre a juny, excepte festius", "quick_2_b": "🕗 20:00–22:00", "quick_2_s": "També pots venir només una hora", "quick_3_b": "📍 Guinardó", "quick_3_s": "Av. Mare de Déu de Montserrat, 136", "quick_4_b": "⚡ Format dinàmic", "quick_4_s": "Parelles noves a cada partit", "how_kicker": "Més que una lliga", "how_title": "Una competició dissenyada per millorar jugant.", "how_lead": "L'experiència del primer any ens va deixar una conclusió inesperada: això no és només una lliga de Padbol, és una Lliga-Escola. Competeixes amb tu mateix, aprens de rivals i companys i, de passada, tots pugem de nivell. Tremola, Ronaldinho! 😄", "school_title": "Lliga-Escola de Padbol", "school_p1": "L'objectiu no és únicament sumar victòries. En jugar amb companys i rivals diferents, cada partit t'obliga a adaptar-te, comunicar-te i descobrir noves maneres de competir.", "school_p2": "No cal que vinguis amb parella: les fem in situ amb els assistents i les anem canviant. Avui company, al partit següent rival. Això és Padbol.", "school_quote": "“Tots hem millorat el nivell en un any i seguim pujant. Tremola, Ronaldinho! ⚽😄”", "step1_title": "Es formen les parelles", "step1_p": "Les combinacions es creen el mateix dia i van canviant a cada partit.", "step2_title": "Partit a 3 jocs", "step2_p": "La parella que arriba a 3 jocs guanya el partit. Cada punt compta.", "step3_title": "Puges o baixes de pista", "step3_p": "La parella guanyadora puja i la perdedora baixa, generant partits cada vegada més equilibrats.", "step4_title": "Tot suma a la teva classificació", "step4_p": "La classificació és individual i pública, amb estadístiques per seguir la teva evolució.", "media_kicker": "La Lliga en acció", "media_title": "Fotos i vídeos reals dels partits.", "media_lead": "Una mostra visual del ritme, les pistes i l\'ambient de la lliga. Sense artificis: padbol real.", "media_gallery_label": "Galeria de fotos", "media_gallery_title": "Partits, punts i ambient real", "media_gallery_caption": "Prem sobre qualsevol foto per obrir-la en gran.", "media_expand": "Ampliar", "media_video_label": "Vídeo destacat", "media_video_title": "Veure el padbol en moviment", "media_video_caption": "Un vídeo curt per entendre millor el dinamisme dels punts, els rebots i l\'ambient real de la Lliga Padbol Barcelona.", "media_lightbox_close": "Tancar galeria", "media_lightbox_prev": "Foto anterior", "media_lightbox_next": "Foto següent", "rank_kicker": "Classificació pública", "rank_title": "Segueix la teva evolució jornada a jornada.", "rank_lead": "Consulta la classificació actualitzada i les estadístiques dels jugadors. El sistema individual permet competir encara que les parelles canviïn a cada partit.", "rank_open": "Obrir classificació", "rank_history": "Històric 2025/26", "rank_player": "Jugador/a", "rank_note": "Vista conceptual. Les dades reals són a la classificació oficial.", "info_kicker": "Informació pràctica", "info_title": "El més important, d'un cop d'ull.", "info_when_title": "Quan", "info_when_p": "Tots els dijous de 20:00 a 22:00. Si ho necessites, pots participar només de 20:00 a 21:00 o de 21:00 a 22:00.", "info_where_title": "On", "info_where_p": "CEM Guinardó · pistes al costat de la piscina exterior. Av. de la Mare de Déu de Montserrat, 136 · Metro L4 Guinardó.", "info_map": "Obrir ubicació →", "info_price_title": "Preu", "info_price_p": "El cost de cada jornada es reparteix proporcionalment entre els assistents, prenent com a referència el lloguer de pista (24 €/hora aprox. per cada 4 jugadors).", "faq_kicker": "Preguntes freqüents", "faq_title": "Abans de venir.", "faq1_q": "He de venir amb parella?", "faq1_a": "No. Les parelles les fem in situ amb els assistents i les canviem a cada partit. Venir sense parella no és un problema; gairebé és part de la gràcia.", "faq2_q": "La lliga és mixta?", "faq2_a": "Of course! Sí, és clar. La lliga és mixta i està oberta a jugadors i jugadores.", "faq3_q": "Què passa si no puc venir tots els dijous?", "faq3_a": "Si algun dijous puntual no pots venir, no passa res: la classificació té en compte els partits jugats. Ara bé, si només pots venir un cop cada tres mesos, potser no val la pena apuntar-s'hi... ja muntarem algun partidet amistós! 😉", "faq4_q": "Com funciona el calendari i el pagament?", "faq4_a": "Es juga els dijous, excepte festius, entre setembre i juny. El pagament es fa el mateix dia i l'import es reparteix proporcionalment entre els assistents.", "faq5_q": "Què passa si plou o hi ha molta humitat?", "faq5_a": "Si hi ha risc de pluja, un espia rus es presenta a les pistes una hora abans, determina si es juga o no i ens ho comunica a les 19:01 per WhatsApp. 🕵️🇷🇺", "faq6_q": "Per què la classificació és individual?", "faq6_a": "Primer: si hi ha una lesió o algú no pot venir, no compromet ningú més. Segon: com més persones diferents tens al costat i al davant, més aprens. Tercer: et pots apuntar quan vulguis sense haver de trobar parella fixa. I si estàs enamorat de la teva parella fixa, tranquil: ja muntarem algun torneig per parelles. 😄", "faq7_q": "Per què es juguen partits curts?", "faq7_a": "El format curt fa que cada punt tingui valor, manté un ritme alt de joc i permet rotar parelles amb freqüència. També ajuda a crear grups de nivell de manera natural.", "faq8_q": "Qui pot jugar?", "faq8_a": "Qualsevol jugador o jugadora a qui li agradi el Padbol i pugui comprometre's a assistir amb certa regularitat. Es recomana tenir una experiència mínima en Padbol i/o futbol. Anima't, vine sol o truca al col·lega i... apuntarsus!! 😄", "faq9_q": "Puc reservar pista fora de la lliga?", "faq9_a": "Sí. Pots consultar les reserves a Padbol Barcelona. Les hores de la lliga són els dijous de 20:00 a 22:00.", "faq9_link": "Anar a Padbol Barcelona →", "cta_title": "Vens aquest dijous?", "cta_p": "Escriu-nos per WhatsApp, dona'ns el teu nom i cognom o un sobrenom esportiu —tipus Joan el Xilenes o el Cames Llargues de Guinardó— i ens veiem dijous a les 20 h. No cal parella.", "footer_copy": "© 2026 Lliga Padbol Barcelona · Temporada 2026/27", "footer_top": "Tornar a dalt ↑", "aria_home": "Lliga Padbol - Inici", "aria_menu": "Obrir menú", "aria_nav": "Navegació principal", "aria_rank_example": "Exemple visual de classificació", "faq10_q": "Per què juguem sempre el mateix dia?", "faq10_a": "Per buscar el compromís d'un dia concret. Les lligues amb dies aleatoris no van funcionar gaire bé en el passat 😅. Si hi ha prou demanda per un altre dia, ens ho plantegem."}, "es": {"nav_how": "Cómo funciona", "nav_ranking": "Clasificación", "nav_info": "Información", "nav_faq": "FAQ", "nav_join": "Apuntarme", "hero_eyebrow": "Apúntate a la Liga · Temporada 2026/27", "hero_title": "Compite.<br>Aprende.<br><span>Sube de pista.</span>", "hero_copy": "Una Liga de Padbol en Barcelona: parejas rotativas, partidos dinámicos y una clasificación individual para medir tu evolución.", "hero_join": "💬 Apuntarme por WhatsApp", "hero_ranking": "Ver clasificación →", "hero_meta_1": "Jueves · 20:00–22:00", "hero_meta_2": "CEM Guinardó · Martinenc", "hero_meta_3": "No necesitas pareja fija", "score_courts": "pistas", "score_games": "juegos", "score_pairs": "parejas", "quick_1_b": "📅 Cada jueves", "quick_1_s": "De septiembre a junio, excepto festivos", "quick_2_b": "🕗 20:00–22:00", "quick_2_s": "También puedes venir solo una hora", "quick_3_b": "📍 Guinardó", "quick_3_s": "Av. Mare de Déu de Montserrat, 136", "quick_4_b": "⚡ Formato dinámico", "quick_4_s": "Parejas nuevas en cada partido", "how_kicker": "Más que una liga", "how_title": "Una competición diseñada para mejorar jugando.", "how_lead": "La experiencia del primer año nos dejó una conclusión inesperada: esto no es solo una liga de Padbol, es una Liga-Escuela. Además de competir contigo mismo, aprendes de todos los rivales y compañeros. Todos hemos mejorado notablemente el nivel en un solo año y seguimos subiendo. ¡Tiembla Ronaldinho! 😄", "school_title": "Liga-Escuela de Padbol", "school_p1": "El objetivo no es únicamente sumar victorias. Al jugar con compañeros y rivales distintos, cada partido te obliga a adaptarte, comunicarte y descubrir nuevas formas de competir.", "school_p2": "No hace falta que vengas con pareja: las creamos in situ con los asistentes y las vamos cambiando. Hoy compañero, en el siguiente partido rival. Esto es Padbol.", "school_quote": "“Todos hemos mejorado el nivel en un año y seguimos subiendo. ¡Tiembla Ronaldinho! ⚽😄”", "step1_title": "Se forman las parejas", "step1_p": "Las combinaciones se crean el mismo día y van cambiando en cada partido.", "step2_title": "Partido a 3 juegos", "step2_p": "La pareja que alcanza 3 juegos gana el partido. Cada punto cuenta.", "step3_title": "Subes o bajas de pista", "step3_p": "La pareja ganadora sube y la perdedora baja, generando partidos cada vez más equilibrados.", "step4_title": "Todo suma a tu clasificación", "step4_p": "La clasificación es individual y pública, con estadísticas para seguir tu evolución.", "media_kicker": "La Liga en acción", "media_title": "Fotos y vídeos reales de los partidos.", "media_lead": "Una muestra visual del ritmo, las pistas y el ambiente de la liga. Sin artificios: padbol real.", "media_gallery_label": "Galería de fotos", "media_gallery_title": "Partidos, puntos y ambiente real", "media_gallery_caption": "Pulsa cualquier foto para verla en grande.", "media_expand": "Ampliar", "media_video_label": "Vídeo destacado", "media_video_title": "Ver el padbol en movimiento", "media_video_caption": "Un vídeo corto para entender mejor el dinamismo de los puntos, los rebotes y el ambiente real de la Liga Padbol Barcelona.", "media_lightbox_close": "Cerrar galería", "media_lightbox_prev": "Foto anterior", "media_lightbox_next": "Foto siguiente", "rank_kicker": "Clasificación pública", "rank_title": "Sigue tu evolución jornada a jornada.", "rank_lead": "Consulta la clasificación actualizada y las estadísticas de los jugadores. El sistema individual permite competir aunque las parejas cambien en cada partido.", "rank_open": "Abrir clasificación", "rank_history": "Histórico 2025/26", "rank_player": "Jugador/a", "rank_note": "Vista conceptual. Los datos reales están en la clasificación oficial.", "info_kicker": "Información práctica", "info_title": "Lo importante, de un vistazo.", "info_when_title": "Cuándo", "info_when_p": "Todos los jueves de 20:00 a 22:00. Si lo necesitas, puedes participar solo de 20:00 a 21:00 o de 21:00 a 22:00.", "info_where_title": "Dónde", "info_where_p": "CEM Guinardó · pistas junto a la piscina exterior. Av. de la Mare de Déu de Montserrat, 136 · Metro L4 Guinardó.", "info_map": "Abrir ubicación →", "info_price_title": "Precio", "info_price_p": "El coste de cada jornada se reparte proporcionalmente entre los asistentes, tomando como referencia el alquiler de pista (24 €/hora aprox. por cada 4 jugadores).", "faq_kicker": "Preguntas frecuentes", "faq_title": "Antes de venir.", "faq1_q": "¿Tengo que venir con pareja?", "faq1_a": "No. Las parejas las creamos in situ con los asistentes y cambian en cada partido. Venir sin pareja no es un problema; casi es parte de la gracia.", "faq2_q": "¿La liga es mixta?", "faq2_a": "Of course. ¡Sí, por supuesto! La liga es mixta y está abierta a jugadores y jugadoras.", "faq3_q": "¿Qué pasa si no puedo ir todos los jueves?", "faq3_a": "Si algún jueves puntual no puedes venir, no pasa nada: la clasificación es relativa a los partidos jugados. Pero si solo puedes venir uno cada tres meses, no vale la pena apuntarse... ¡ya organizaremos algún partidillo amistoso! 😉", "faq4_q": "¿Cómo funciona el calendario y el pago?", "faq4_a": "Se juega los jueves, excepto festivos, entre septiembre y junio. El pago se realiza el mismo día y el importe se reparte proporcionalmente entre los asistentes.", "faq5_q": "¿Qué ocurre si llueve o hay mucha humedad?", "faq5_a": "Si hay riesgo de lluvia, un espía ruso se persona en las pistas una hora antes, determina si se juega o no y nos lo comunica a las 19:01 por WhatsApp. 🕵️🇷🇺", "faq6_q": "¿Por qué la clasificación es individual?", "faq6_a": "El 1º motivo es que, si hay una lesión o imposibilidad de asistir, no se compromete a nadie más. La 2ª razón es que cuanto con más personas juegas, más aprendes. La 3ª es que la gente se puede apuntar cuando quiera sin necesidad de conseguir pareja fija. Si estás enamorado de tu pareja fija, tranqui: montaremos algún torneo por parejas. 😄", "faq7_q": "¿Por qué se juegan partidos cortos?", "faq7_a": "El formato corto hace que cada punto tenga valor, mantiene un ritmo alto de juego y permite rotar parejas con frecuencia. También ayuda a crear grupos de nivel de forma natural.", "faq8_q": "¿Quién puede jugar?", "faq8_a": "Todo jugador o jugadora al que le guste el Padbol y que se comprometa a asistir habitualmente. Se recomienda tener un mínimo de experiencia en Padbol y/o fútbol. ¡Anímate y ven solo o llama a tu colega y apuntarsus!! 😄", "faq9_q": "¿Puedo reservar pista fuera de la liga?", "faq9_a": "Sí. Puedes consultar las reservas en Padbol Barcelona. Las horas de la liga son los jueves de 20:00 a 22:00.", "faq9_link": "Ir a Padbol Barcelona →", "cta_title": "¿Te vienes este jueves?", "cta_p": "Escríbenos por WhatsApp, danos tu nombre y apellido o un mote deportivo —por ejemplo Juan el Chilenas o el Patas Largas de Guinardó— y nos vemos el jueves a las 20 h. No hace falta pareja.", "footer_copy": "© 2026 Liga Padbol Barcelona · Temporada 2026/27", "footer_top": "Volver arriba ↑", "aria_home": "Liga Padbol - Inicio", "aria_menu": "Abrir menú", "aria_nav": "Navegación principal", "aria_rank_example": "Ejemplo visual de clasificación", "faq10_q": "¿Por qué jugamos siempre el mismo día?", "faq10_a": "Para buscar el compromiso de un día concreto. Las ligas de días aleatorios no funcionaron demasiado bien en el pasado 😅. Si hay suficiente demanda para otro día, nos lo planteamos."}};
 
     function setLang(lang) {
       if (!I18N[lang]) lang = 'ca';
@@ -645,6 +736,59 @@
     });
 
     setLang(localStorage.getItem('ligapadbol_lang') || 'ca');
+
+
+    const lightbox = document.getElementById('photo-lightbox');
+    const lightboxImg = document.getElementById('lightbox-image');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const galleryItems = Array.from(document.querySelectorAll('#padbol-gallery .gallery-item'));
+    let currentGalleryIndex = 0;
+
+    function getCaptionForItem(item) {
+      const lang = document.documentElement.lang === 'es' ? 'es' : 'ca';
+      return item.dataset[`caption${lang.charAt(0).toUpperCase() + lang.slice(1)}`] || item.querySelector('img')?.alt || '';
+    }
+
+    function showGalleryImage(index) {
+      if (!galleryItems.length) return;
+      currentGalleryIndex = (index + galleryItems.length) % galleryItems.length;
+      const item = galleryItems[currentGalleryIndex];
+      const img = item.querySelector('img');
+      lightboxImg.src = img.currentSrc || img.src;
+      lightboxImg.alt = img.alt || '';
+      lightboxCaption.textContent = getCaptionForItem(item);
+    }
+
+    function openLightbox(index) {
+      showGalleryImage(index);
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    galleryItems.forEach((item, index) => {
+      item.addEventListener('click', () => openLightbox(index));
+    });
+
+    document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+    document.querySelector('.lightbox-prev').addEventListener('click', () => showGalleryImage(currentGalleryIndex - 1));
+    document.querySelector('.lightbox-next').addEventListener('click', () => showGalleryImage(currentGalleryIndex + 1));
+    lightbox.addEventListener('click', (event) => {
+      if (event.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (event.key === 'Escape') closeLightbox();
+      if (event.key === 'ArrowLeft') showGalleryImage(currentGalleryIndex - 1);
+      if (event.key === 'ArrowRight') showGalleryImage(currentGalleryIndex + 1);
+    });
 
     // Precalienta la clasificación mientras el usuario está en la portada.
     // Así, al abrirla, normalmente los datos ya están en localStorage.
