@@ -129,4 +129,6 @@ if(!(p.masVictorias||[]).length)fallback("wins",t("no_data"));if(!(p.mejorPrecis
 async function load(){$("#state").classList.remove("hidden");$("#state").textContent=t("loading");$("#body").classList.add("hidden");const season=$("#season").value;localStorage.setItem("ligapadbol_season",season);const round=$("#round").value;const q=new URLSearchParams({temporada:season,entorno:"beta",_:Date.now()});if(round)q.set("jornada",round);try{const r=await fetch(`${API}?${q}`);const d=await r.json();render(d)}catch(e){$("#state").textContent=String(e)}}
 document.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>setLang(b.dataset.lang));$("#season").value=localStorage.getItem("ligapadbol_season")||"2026-27";const qp=new URLSearchParams(location.search);if(qp.get("temporada"))$("#season").value=qp.get("temporada");$("#season").onchange=()=>{const u=new URL(location.href);u.searchParams.set("temporada",$("#season").value);u.searchParams.delete("jornada");history.replaceState(null,"",u);load()};$("#round").onchange=()=>{const u=new URL(location.href);if($("#round").value)u.searchParams.set("jornada",$("#round").value);else u.searchParams.delete("jornada");history.replaceState(null,"",u);load()};setLang(lang);load();
 </script>
+
+<script defer src="/assets/app-navigation.js"></script>
 </body></html>
